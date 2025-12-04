@@ -1,0 +1,6 @@
+After applying Run-Length Encoding to the image, the raw uncompressed size was approximately 529 KB, while the compressed size decreased to 236.7 KB.
+The calculated Compression Ratio is 2.235, which indicates that the compressed image requires less than half the size of the original raw data.
+
+The estimated spatial redundancy was 85.16%, meaning that a large portion of neighboring pixels had identical intensity values. This confirms the presence of inter-pixel redundancy, which is exactly the type of redundancy that RLE (Run-Length Encoding) exploits.
+
+Finally, the computed Redundancy percentage was 55.26%, suggesting that over half of the information in the original image was repetitive and could be removed without losing any actual data (lossless compression).
