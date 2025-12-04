@@ -2,14 +2,14 @@ import cv2
 import numpy as np
 
 def classify_redundancies(coding_red, spatial_red, spectral_strength):
-    # First: determine LOW/MEDIUM/HIGH (for printing)
+
     levels = {}
 
     levels["coding"] = "HIGH" if coding_red >= 0.5 else ("MEDIUM" if coding_red >= 0.3 else "LOW")
     levels["spatial"] = "HIGH" if spatial_red >= 0.7 else ("MEDIUM" if spatial_red >= 0.3 else "LOW")
     levels["spectral"] = "HIGH" if spectral_strength >= 0.7 else ("MEDIUM" if spectral_strength >= 0.3 else "LOW")
 
-    # Second: choose actual dominant redundancy (slides logic)
+
     if spatial_red >= 0.7:
         dominant = "spatial"
     elif coding_red >= 0.5:
