@@ -1,6 +1,26 @@
 import cv2
 import numpy as np
 
+def classify_redundancies(coding_red, spatial_red, spectral_strength):
+    # First: determine LOW/MEDIUM/HIGH (for printing)
+    levels = {}
+
+    levels["coding"] = "HIGH" if coding_red >= 0.5 else ("MEDIUM" if coding_red >= 0.3 else "LOW")
+    levels["spatial"] = "HIGH" if spatial_red >= 0.7 else ("MEDIUM" if spatial_red >= 0.3 else "LOW")
+    levels["spectral"] = "HIGH" if spectral_strength >= 0.7 else ("MEDIUM" if spectral_strength >= 0.3 else "LOW")
+
+    # Second: choose actual dominant redundancy (slides logic)
+    if spatial_red >= 0.7:
+        dominant = "spatial"
+    elif coding_red >= 0.5:
+        dominant = "coding"
+    elif spectral_strength >= 0.7:
+        dominant = "spectral"
+    else:
+        dominant = "none"
+
+    return levels, dominant
+
 
 def estimate_spatial_redundancy(img_gray):
     height, width = img_gray.shape
@@ -133,6 +153,13 @@ def main():
         print(f"Average spectral redundancy (|corr|): {avg_corr:.3f}")
     else:
         print("Spectral redundancy: not applicable (grayscale image).")
+
+    levels, dominant = classify_redundancies(coding_red, similarity_ratio, avg_corr)
+    print("Redundancy levels:")
+    print("  Coding :", levels["coding"])
+    print("  Spatial:", levels["spatial"])
+    print("  Spectral:", levels["spectral"])
+    print("Dominant redundancy type:", dominant)
 
     method, reason = choose_compression_method(coding_red, similarity_ratio, avg_corr)
     print("Chosen compression method:", method)
